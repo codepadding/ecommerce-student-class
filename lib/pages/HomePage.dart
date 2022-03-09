@@ -118,10 +118,7 @@ class _HomePageState extends State<HomePage> {
       physics: NeverScrollableScrollPhysics(),
       itemCount: _categorys.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 3,
-          mainAxisExtent: 40,
-          mainAxisSpacing: 3),
+          crossAxisCount: 4, crossAxisSpacing: 3, mainAxisExtent: 40, mainAxisSpacing: 3),
       itemBuilder: (context, index) => Container(
         color: Colors.blue,
         child: Center(
@@ -137,10 +134,7 @@ class _HomePageState extends State<HomePage> {
     return GridView.builder(
       itemCount: latestNews.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 3,
-          mainAxisExtent: 120,
-          mainAxisSpacing: 3),
+          crossAxisCount: 2, crossAxisSpacing: 3, mainAxisExtent: 200, mainAxisSpacing: 3),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
@@ -161,18 +155,22 @@ class _HomePageState extends State<HomePage> {
                 ));
             // Navigator.pushNamed(context, "news-details");
           },
-          child: Container(
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            CachedNetworkImage(
-              imageUrl: thumbnail,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => Image.network(
-                  "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
-            ),
-            Text(latestNews[index]['title'])
-          ])),
+          child: Card(
+            clipBehavior: Clip.hardEdge,
+            child: Container(
+                child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              CachedNetworkImage(
+                imageUrl: thumbnail,
+                height: 150,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Image.network(
+                    "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
+              ),
+              Text("Product Name")
+            ])),
+          ),
         );
       },
     );
@@ -181,8 +179,7 @@ class _HomePageState extends State<HomePage> {
   getLatestNews() async {
     var response = await http.get(Uri.parse(homePageApi));
     print('Response body: ${response.body}');
-    var jsonResponse =
-        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
     var articles = jsonResponse['articles'];
     setState(() {
       latestNews = articles;

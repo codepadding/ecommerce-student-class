@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomeSlider extends StatefulWidget {
@@ -10,6 +11,24 @@ class HomeSlider extends StatefulWidget {
 }
 
 class _HomeSliderState extends State<HomeSlider> {
+
+
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getSliderImageFromDb() async {
+    var _fireStore = FirebaseFirestore.instance;
+    QuerySnapshot<Map<String,dynamic>> snapshot = await _fireStore.collection('Banner').get();
+    if (mounted) {
+      setState(() {
+        var length = snapshot.docs.length;
+        print("============firebase=========");
+        print(length);
+      });
+    }
+    return snapshot.docs;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
