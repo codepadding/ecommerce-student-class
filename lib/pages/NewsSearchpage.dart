@@ -97,7 +97,7 @@ class _NewsSearchState extends State<NewsSearch> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProductDetailsPage(
-                        news: news,
+                        product: news,
                       ),
                     ));
                 // Navigator.pushNamed(context, "news-details");

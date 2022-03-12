@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  ProductDetailsPage({Key? key, required this.news}) : super(key: key);
+  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
 
-  var news;
+  var product;
 
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
@@ -16,21 +17,77 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Details Page"),
+        actions: [
+          Container(
+              padding: EdgeInsets.only(right: 10),
+              child: InkWell(
+                  onTap: (){
+
+                  },
+                  child: Icon(Icons.shopping_cart_outlined)))
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: kToolbarHeight,
+        color: Colors.brown,
+        child: Center(
+          child: Text(
+            "Add To Cart",
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+        ),
       ),
       body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         children: [
           CachedNetworkImage(
-            imageUrl: widget.news['urlToImage'],
+            imageUrl: widget.product['images'][0],
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
             errorWidget: (context, url, error) => Image.network(
                 "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
           ),
-          Text(widget.news['title']),
-          Text(widget.news['description']),
-          Text(widget.news['content']),
+          Text(
+            widget.product['name'],
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Row(
+            children: [
+              Text(
+                "৳  ${widget.product['previousPrice']}",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[400],
+                    decoration: TextDecoration.lineThrough),
+              ),
+              Text(
+                  getDiscount(widget.product['previousPrice'],
+                      widget.product['currentPrice']),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.red[300],
+                  ))
+            ],
+          ),
+          Text(
+            "৳ ${widget.product['currentPrice']}",
+            style: TextStyle(
+                color: Colors.brown, fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Text(widget.product['description']),
         ],
       ),
     );
+  }
+
+  getDiscount(previousPrice, currentPrice) {
+    double prePrice = double.parse(previousPrice.toString());
+    double currPrice = double.parse(currentPrice.toString());
+
+    double discountPercentage = ((prePrice - currPrice) / prePrice) * 100;
+
+    return "$discountPercentage";
   }
 }

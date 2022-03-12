@@ -34,7 +34,7 @@ class _HomeProductListState extends State<HomeProductList> {
         return GridView.builder(
           itemCount: snapshot.data!.docs.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, crossAxisSpacing: 3, mainAxisExtent: 200, mainAxisSpacing: 3),
+              crossAxisCount: 2, crossAxisSpacing: 3, mainAxisExtent: 250, mainAxisSpacing: 3),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {

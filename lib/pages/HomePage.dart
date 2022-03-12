@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news/pages/ProductAddPage.dart';
 import 'package:news/widgets/HomeCategory.dart';
 import 'package:news/widgets/HomeProductList.dart';
 import 'package:news/widgets/HomeSlider.dart';
@@ -11,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(context, "product-search");
                 },
                 child: Container(
-                  //  padding: const EdgeInsets.all(8),
+                    //  padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey[300],
@@ -51,11 +51,34 @@ class _HomePageState extends State<HomePage> {
                     )),
               )),
         ),
-        drawer: Drawer(),
-        bottomNavigationBar: BottomNavigationBar(items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home,),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: "Category"),
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: "order"),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(child: Container()),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductAddPage(),
+                        ));
+                  },
+                  child: ListTile(
+                    title: Text("Product Add"),
+                  )),
+              Divider(),
+            ],
+          ),
+        ),
+        bottomNavigationBar:
+            BottomNavigationBar(type: BottomNavigationBarType.fixed, items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Category"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "order"),
           // BottomNavigationBarItem(icon: Icon(Icons.home),label: "account"),
         ]),
         body: ListView(

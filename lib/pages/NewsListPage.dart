@@ -48,7 +48,7 @@ class _NewsListPageState extends State<NewsListPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProductDetailsPage(
-                        news: news,
+                        product: news,
                       ),
                     ));
                 // Navigator.pushNamed(context, "news-details");
