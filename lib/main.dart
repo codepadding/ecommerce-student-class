@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:news/provider/CartProvider.dart';
 import 'package:news/routes.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<CartProvider>(create: (context) => CartProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -17,24 +24,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Future<void> addUser() {
     // Call the user's CollectionReference to add a new user
     return users
         .add({
-      'full_name': "Mizanur Rahaman", // John Doe
-      'company': "Emedilife", // Stokes and Sons
-      'age': "26" // 42
-    })
+          'full_name': "Mizanur Rahaman", // John Doe
+          'company': "Emedilife", // Stokes and Sons
+          'age': "26" // 42
+        })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
 
   @override
   Widget build(BuildContext context) {
-    users.doc("275cqMkU7OBy1LezFWxx").get().then((DocumentSnapshot documentSnapshot) {
+    users
+        .doc("275cqMkU7OBy1LezFWxx")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         var data = documentSnapshot.data() as Map;
         print('Document data: ${data['name']}');

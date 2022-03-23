@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news/provider/CartProvider.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   ProductDetailsPage({Key? key, required this.product}) : super(key: key);
@@ -21,19 +23,44 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Container(
               padding: EdgeInsets.only(right: 10),
               child: InkWell(
-                  onTap: (){
-
-                  },
-                  child: Icon(Icons.shopping_cart_outlined)))
+                  onTap: () {},
+                  child: Stack(
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 40,
+                      ),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.red)),
+                        child: Center(
+                            child: Text(
+                          "${context.watch<CartProvider>().carts.length}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red),
+                        )),
+                      )
+                    ],
+                  )))
         ],
       ),
-      bottomNavigationBar: Container(
-        height: kToolbarHeight,
-        color: Colors.brown,
-        child: Center(
-          child: Text(
-            "Add To Cart",
-            style: TextStyle(fontSize: 20, color: Colors.white),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          context.read<CartProvider>().addToCart(widget.product, 1);
+        },
+        child: Container(
+          height: kToolbarHeight,
+          color: Colors.brown,
+          child: Center(
+            child: Text(
+              "Add To Cart",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
           ),
         ),
       ),
