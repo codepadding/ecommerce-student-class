@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:news/provider/CartProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../routes.dart';
+
 class ProductDetailsPage extends StatefulWidget {
   ProductDetailsPage({Key? key, required this.product}) : super(key: key);
 
@@ -23,7 +25,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Container(
               padding: EdgeInsets.only(right: 10),
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.CartPage);
+                  },
                   child: Stack(
                     children: [
                       Icon(
@@ -41,8 +45,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             child: Text(
                           "${context.watch<CartProvider>().carts.length}",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red),
+                              fontWeight: FontWeight.bold, color: Colors.red),
                         )),
                       )
                     ],
@@ -51,14 +54,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          context.read<CartProvider>().addToCart(widget.product, 1);
+          context.read<CartProvider>().addToCart(widget.product);
         },
         child: Container(
           height: kToolbarHeight,
-          color: Colors.brown,
+          color: checkCart(widget.product['id']) == true
+              ? Colors.green
+              : Colors.grey,
           child: Center(
             child: Text(
-              "Add To Cart",
+              checkCart(widget.product['id']) ? "Add To Cart" : "Already Added",
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
@@ -116,5 +121,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     double discountPercentage = ((prePrice - currPrice) / prePrice) * 100;
 
     return "$discountPercentage";
+  }
+
+  checkCart(String productId) {
+    int index = context
+        .watch<CartProvider>()
+        .carts
+        .indexWhere((Cart element) => element.id == productId);
+
+    if (index < 0) {
+      return true;
+    }
+
+    return false;
   }
 }

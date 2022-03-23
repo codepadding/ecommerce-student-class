@@ -35,8 +35,17 @@ class _ProductItemState extends State<ProductItem> {
             imageUrl: widget.product['images'][0],
             height: 150,
             fit: BoxFit.cover,
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                CircularProgressIndicator(value: downloadProgress.progress),
+            progressIndicatorBuilder: (context, url, downloadProgress) {
+              return Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                        value: downloadProgress.progress),
+                  ],
+                ),
+              );
+            },
             errorWidget: (context, url, error) => Image.network(
                 "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
           ),
@@ -47,9 +56,7 @@ class _ProductItemState extends State<ProductItem> {
                 "৳ ${widget.product['currentPrice']}",
                 maxLines: 2,
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 18
-                ),
+                style: TextStyle(fontSize: 18),
               )),
           Text(
             widget.product['name'],

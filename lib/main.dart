@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      initialRoute: Routes.DemoPage,
+      initialRoute: Routes.SplashScreen,
       routes: routes,
     );
   }

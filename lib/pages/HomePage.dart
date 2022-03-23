@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:news/pages/ProductAddPage.dart';
 import 'package:news/widgets/HomeCategory.dart';
 import 'package:news/widgets/HomeProductList.dart';
@@ -12,8 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
         appBar: AppBar(
           title: Text("E-commerce"),

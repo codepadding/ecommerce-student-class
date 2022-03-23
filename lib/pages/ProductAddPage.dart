@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductAddPage extends StatefulWidget {
   const ProductAddPage({Key? key}) : super(key: key);
@@ -32,7 +35,8 @@ class _ProductAddPageState extends State<ProductAddPage> {
     CollectionReference productCollection =
         FirebaseFirestore.instance.collection("products");
     productCollection.add({
-      "name": "Blazer Jacquard Slim Lapel Blazer",
+      "id": Uuid().v4(),
+      "name": "Blazer Jacquard Slim Lapel Blazer ${Random().nextInt(100)}",
       "category": "0HEbRgrYZo9lYxvbh3lT",
       "currentPrice": "3548",
       "previousPrice": "4000",
