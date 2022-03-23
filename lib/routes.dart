@@ -3,6 +3,7 @@ import 'package:news/pages/CartPage.dart';
 import 'package:news/pages/CategoryPage.dart';
 import 'package:news/pages/CheckoutPage.dart';
 import 'package:news/pages/ComparePage.dart';
+import 'package:news/pages/DemoPage.dart';
 import 'package:news/pages/FavoritePage.dart';
 import 'package:news/pages/FlashPage.dart';
 import 'package:news/pages/HomePage.dart';
@@ -38,6 +39,7 @@ class Routes {
 
   static String ComparePage = "ComparePage";
   static String FlashPage = "FlashPage";
+  static String DemoPage = "DemoPage";
 }
 
 Map<String, WidgetBuilder> routes = {
@@ -55,4 +57,5 @@ Map<String, WidgetBuilder> routes = {
   Routes.FlashPage: (context) => FlashPage(),
   Routes.SupportPage: (context) => SupportPage(),
   Routes.PrivacyPage: (context) => PrivacyPage(),
+  Routes.DemoPage: (context) => DemoPage(),
 };
