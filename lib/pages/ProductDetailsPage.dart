@@ -43,10 +43,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             border: Border.all(color: Colors.red)),
                         child: Center(
                             child: Text(
-                          "${context.watch<CartProvider>().carts.length}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.red),
-                        )),
+                              "${context
+                                  .watch<CartProvider>()
+                                  .carts
+                                  .length}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
+                            )),
                       )
                     ],
                   )))
@@ -76,8 +80,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             imageUrl: widget.product['images'][0],
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) => Image.network(
-                "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
+            errorWidget: (context, url, error) =>
+                Image.network(
+                    "https://news.aut.ac.nz/__data/assets/image/0006/92328/placeholder-image10.jpg"),
           ),
           Text(
             widget.product['name'],

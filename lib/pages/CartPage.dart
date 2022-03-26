@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news/provider/CartProvider.dart';
+import 'package:news/routes.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
@@ -13,9 +14,38 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
+    getTotalPrice() {
+      double total = 0;
+      for (Cart cart in context.watch<CartProvider>().carts) {
+        total = total + (cart.currentPrice * cart.quantity);
+      }
+
+      return total;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Cart List"),
+      ),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          if (context.read<CartProvider>().carts.isNotEmpty) {
+            Navigator.pushNamed(context, Routes.CheckoutPage);
+          }
+        },
+        child: Container(
+          height: kToolbarHeight + 10,
+          width: double.infinity,
+          color: context.watch<CartProvider>().carts.isNotEmpty
+              ? Colors.brown
+              : Colors.grey,
+          child: Center(
+            child: Text(
+              "Checkout (Total ${getTotalPrice()} tk)",
+              style: TextStyle(color: Colors.white, fontSize: 22),
+            ),
+          ),
+        ),
       ),
       body: ListView.separated(
         itemBuilder: (context, index) {
@@ -86,7 +116,13 @@ class _CartPageState extends State<CartPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              // add
+
+                                              Provider.of<CartProvider>(context,
+                                                      listen: false)
+                                                  .updateQuantity(index, "add");
+                                            },
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -97,14 +133,18 @@ class _CartPageState extends State<CartPage> {
                                             ),
                                           ),
                                           Text(
-                                            "${context
-                                                .watch<CartProvider>()
-                                                .carts[index].quantity}",
+                                            "${context.watch<CartProvider>().carts[index].quantity}",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              // less
+                                              Provider.of<CartProvider>(context,
+                                                      listen: false)
+                                                  .updateQuantity(
+                                                      index, "less");
+                                            },
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
